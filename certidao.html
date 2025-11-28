@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Certidão de Namoro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* ======================================= */
+    /* ESTILOS GERAIS E CERTIDÃO               */
+    /* ======================================= */
+    body {
+        background: url(Untitled-1_0000s_0004_BG-rosa.png); 
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .certidao {
+        background: #fff;
+        width: 70%;
+        max-width: 700px;
+        padding: 40px;
+        border-radius: 15px;
+        border: 5px solid #ff8fc9;
+        box-shadow: 0px 0px 20px rgba(255, 100, 170, 0.3);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 38px;
+        color: #e6007e;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 18px;
+        color: #444;
+        line-height: 1.6;
+    }
+
+    .names {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 20px 0;
+        color: #d4006e;
+    }
+
+    .footer {
+        margin-top: 35px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    /* ======================================= */
+    /* ESTILOS DO PLAYER DE MÚSICA             */
+    /* ======================================= */
+    .music-player {
+        width: 380px;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 12px;
+    }
+
+    .controls button,
+    .volume-area button {
+        background: #e6e6e6;
+        border: none;
+        padding: 10px 14px;
+        font-size: 18px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .controls button:hover,
+    .volume-area button:hover {
+        background: #d4d4d4;
+    }
+    
+    /* Estilos para os sliders de Range (Progresso e Volume) */
+    #progress, #volume {
+        width: 100%;
+        margin: 10px 0;
+        -webkit-appearance: none; 
+        appearance: none;
+        height: 8px;
+        background: #ffc4e8;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    #progress::-webkit-slider-thumb, #volume::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #e6007e;
+        border-radius: 50%;
+        margin-top: -4px;
+        border: 1px solid white;
+    }
+
+    .volume-area {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="certidao">
+    <h1>Certidão de Namoro </h1>
+
+    <p>
+        Certifico que pra sempre seremos duo e você não pode mais jogar com ninguém além de mim.
+        Se tiltar e me xingar no valorant/lol terá consequências.
+        Caso queira terminar vai dormir que amanhã é outro dia.
+    </p>
+
+    <div class="names" id="names"></div>
+
+    <p>
+        Que este seja o começo de partida infinita cheia de plays dahoras,
+        pixels, derrotas, vitórias e muita boiolagem.
+    </p>
+
+    <div class="footer">
+        Emitido com muita boiolagem em <span id="data"></span> 
+    </div>
+</div>
+
+<div class="music-player">
+    <audio id="audio" src="  beabadoobee - the perfect pair (Official Audio) - Beabadoobee (youtube).mp3"></audio>
+
+    <div class="controls">
+        <button id="backBtn">⏪</button>
+        <button id="playBtn">▶️</button>
+        <button id="nextBtn">⏩</button>
+    </div>
+
+    <input type="range" id="progress" value="0" min="0">
+
+    <div class="volume-area">
+        <button id="muteBtn">🔊</button>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+    // Pega os nomes enviados pela URL
+    const params = new URLSearchParams(window.location.search);
+    const n1 = params.get("nome1") || "Nome1"; 
+    const n2 = params.get("nome2") || "Nome2";
+
+    document.getElementById("names").innerText = n1 + " " + String.fromCodePoint(0x2764, 0xFE0F) + " " + n2;
+
+    // Coloca a data atual
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    document.getElementById("data").innerText = hoje;
+
+    // CONFETE AO ABRIR A PÁGINA
+    setTimeout(() => {
+        confetti({
+            particleCount: 180,
+            spread: 70,
+            origin: { y: 0.3 }
+        });
+    }, 300);
+</script>
+
+<script>
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const progress = document.getElementById("progress");
+const volume = document.getElementById("volume");
+const muteBtn = document.getElementById("muteBtn");
+
+// 1. GARANTE QUE O RANGE DE PROGRESSO SE AJUSTE À DURAÇÃO DA MÚSICA
+audio.addEventListener('loadedmetadata', () => {
+    progress.max = audio.duration;
+});
+
+// 2. CONTROLE DE PLAY/PAUSE (COM TRATAMENTO DE ERRO DE AUTOPLAY)
+playBtn.addEventListener("click", () => {
+    if (audio.paused) {
+        audio.play().catch(error => {
+            console.error("Erro ao tentar tocar o áudio:", error);
+            alert("O navegador impediu a reprodução automática. Tente clicar no play novamente.");
+        });
+        playBtn.textContent = String.fromCodePoint(0x23F8, 0xFE0F); // ⏸️
+    } else {
+        audio.pause();
+        playBtn.textContent = String.fromCodePoint(0x25B6, 0xFE0F); // ▶️
+    }
+});
+
+// 3. CONTROLE DE PROGRESSO
+audio.addEventListener("timeupdate", () => {
+    progress.value = audio.currentTime;
+});
+
+progress.addEventListener("input", () => {
+    audio.currentTime = progress.value;
+});
+
+// 4. CONTROLE DE VOLUME E MUTE
+volume.addEventListener("input", () => {
+    audio.volume = volume.value;
+    if (audio.volume == 0) {
+        muteBtn.textContent = String.fromCodePoint(0x1F507); // 🔇
+    } else {
+        muteBtn.textContent = String.fromCodePoint(0x1F50A); // 🔊
+    }
+});
+
+muteBtn.addEventListener("click", () => {
+    if (audio.muted) {
+        audio.muted = false;
+        muteBtn.textContent = String.fromCodePoint(0x1F50A); // 🔊
+    } else {
+        audio.muted = true;
+        muteBtn.textContent = String.fromCodePoint(0x1F507); // 🔇
+    }
+});
+
+// 5. CONTROLES DE AVANÇO/RETROCESSO RÁPIDO
+document.getElementById("backBtn").addEventListener("click", () => {
+    audio.currentTime -= 5;
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+    audio.currentTime += 5;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>QUE ISSO?</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background-image: url(Untitled-1_0000s_0005_BG-LARANJA.png);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
+
+    .button {
+      background: linear-gradient(90deg, #ffbb7b, #fe7500);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 30px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+    }
+
+    .hearts {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    .floating {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.3;
+      animation: float 8s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh);
+      }
+      to {
+        transform: translateY(-10vh);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Ana, esse segredo é algo muito óbvio e que eu queria fazer a muito tempo</h1>
+  <p>Clique no botão abaixo... 👇</p>
+
+  <button class="button" onclick="irParaPedido()">
+    Clique e descubra
+  </button>
+  <div class="hearts">🤔🤔🤔🤔</div>
+</div>
+
+<script>
+  function irParaPedido() {
+    window.location.href = "aceita.html";
+  }
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("floating");
+    heart.innerText = "🤔";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 8000);
+  }
+
+  setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>

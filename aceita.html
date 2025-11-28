@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pedido ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: url(Untitled-1_0000s_0004_BG-rosa.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: white;
+    width: 420px;
+    height: 620px; 
+    padding: 30px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  /* area do GIF/imagem */
+  .card-media {
+    width: 100%;
+    height: 230px;
+    border-radius: 15px;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto 10px;
+    background: #f7f5f7;
+  }
+  .card-media img,
+  .card-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  h1 { color: #ff2c8c; font-size: 30px; margin-top: 10px; }
+  p { color: #555; margin-top: -5px; }
+  .ask { margin-top: 15px; font-weight: 600; color: #ff2c8c; font-size: 18px; }
+
+  input {
+    width: 85%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #ff7fbf;
+    margin-top: 10px;
+    font-size: 15px;
+    outline: none;
+  }
+
+  .buttons { margin-top: 25px; display:flex; justify-content:center; gap:20px; position:relative; z-index:15; }
+
+  button { border:none; padding:12px 28px; border-radius:30px; cursor:pointer; font-size:18px; font-weight:600; transition:0.2s; }
+  #yesBtn { background:#ff2c8c; color:white; box-shadow:0px 6px 15px rgba(255,0,120,0.4); position:relative; z-index:20; }
+  #noBtn { background:#e6e6e6; position:absolute; left:50%; top:85%; transform:translate(-50%,-50%); z-index:30; }
+
+  .media-error { font-size:13px; color:#999; margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="card-media" id="cardMedia"></div>
+
+  <h1>Oiii Love, rs! ❤️</h1>
+  <p>Não sou boa com texto mas vamos lá...</p>
+
+  <div class="ask">namora com eu? 👉👈</div>
+
+  <input id="nome1" placeholder="Meu nick">
+  <input id="nome2" placeholder="Nick dela">
+
+  <div class="buttons">
+    <button id="yesBtn">SIM! 🔒</button>
+  </div>
+
+  <button id="noBtn">Não 🔪</button>
+</div>
+
+<script>
+  const cardMedia = document.getElementById('cardMedia');
+
+  const remoteGif = 'https://cdn.answeroverflow.com/1248321000341377075/SPOILER_omg_killjoy_x_raze_kissing_sussy.gif';
+  const localFallback = 'meu-gif.gif';
+
+  function tryLoadGif(remote, fallback) {
+    const img = new Image();
+    img.src = remote;
+    img.alt = 'GIF';
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+
+    img.onload = () => {
+      clearMedia();
+      cardMedia.appendChild(img);
+    };
+
+    img.onerror = () => {
+      const localImg = new Image();
+      localImg.src = fallback;
+      localImg.alt = 'GIF local';
+      localImg.style.width = '100%';
+      localImg.style.height = '100%';
+      localImg.style.objectFit = 'cover';
+
+      localImg.onload = () => {
+        clearMedia();
+        cardMedia.appendChild(localImg);
+      };
+
+      localImg.onerror = () => {
+        clearMedia();
+        const msg = document.createElement('div');
+        msg.className = 'media-error';
+        msg.innerText = 'Não foi possível carregar o GIF. Baixe o GIF e coloque-o na pasta do projeto com o nome "meu-gif.gif".';
+        cardMedia.appendChild(msg);
+      };
+    };
+  }
+
+  function clearMedia() {
+    cardMedia.innerHTML = '';
+  }
+
+  tryLoadGif(remoteGif, localFallback);
+
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const card = document.querySelector(".card");
+
+  let yesBtnScale = 1;
+
+  noBtn.addEventListener("mouseover", () => {
+      const cardRect = card.getBoundingClientRect();
+      const btnWidth = noBtn.clientWidth;
+      const btnHeight = noBtn.clientHeight;
+
+      const maxX = cardRect.width - btnWidth - 20;
+      const maxY = cardRect.height - btnHeight - 20;
+
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+
+      noBtn.style.left = newX + "px";
+      noBtn.style.top = newY + "px";
+
+      yesBtnScale += 0.09;
+      yesBtn.style.transform = `scale(${yesBtnScale})`;
+  });
+
+  yesBtn.addEventListener("click", () => {
+
+      const nome1 = document.getElementById("nome1").value.trim();
+      const nome2 = document.getElementById("nome2").value.trim();
+
+      if (!nome1 || !nome2) {
+        alert("Preencha os dois nicks antes de continuar ​🙄​");
+        return;
+      }
+
+      window.location.href = `certidao.html?nome1=${encodeURIComponent(nome1)}&nome2=${encodeURIComponent(nome2)}`;
+  });
+</script>
+
+</body>
+</html>
