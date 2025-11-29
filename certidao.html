@@ -6,9 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* ======================================= */
-    /* ESTILOS GERAIS E CERTIDÃO               */
-    /* ======================================= */
+
     body {
         background: url(Untitled-1_0000s_0004_BG-rosa.png); 
         font-family: "Poppins", sans-serif;
@@ -56,9 +54,7 @@
         color: #555;
     }
 
-    /* ======================================= */
-    /* ESTILOS DO PLAYER DE MÚSICA             */
-    /* ======================================= */
+
     .music-player {
         width: 380px;
         background: rgba(255,255,255,0.8);
@@ -92,7 +88,6 @@
         background: #d4d4d4;
     }
     
-    /* Estilos para os sliders de Range (Progresso e Volume) */
     #progress, #volume {
         width: 100%;
         margin: 10px 0;
@@ -125,23 +120,20 @@
 <body>
 
 <div class="certidao">
-    <h1>Certidão de Namoro </h1>
+    <h1>null </h1>
 
     <p>
-        Certifico que pra sempre seremos duo e você não pode mais jogar com ninguém além de mim.
-        Se tiltar e me xingar no valorant/lol terá consequências.
-        Caso queira terminar vai dormir que amanhã é outro dia.
+        null
     </p>
 
     <div class="names" id="names"></div>
 
     <p>
-        Que este seja o começo de partida infinita cheia de plays dahoras,
-        pixels, derrotas, vitórias e muita boiolagem.
+        null
     </p>
 
     <div class="footer">
-        Emitido com muita boiolagem em <span id="data"></span> 
+        null <span id="data"></span> 
     </div>
 </div>
 
@@ -172,11 +164,10 @@
 
     document.getElementById("names").innerText = n1 + " " + String.fromCodePoint(0x2764, 0xFE0F) + " " + n2;
 
-    // Coloca a data atual
+
     const hoje = new Date().toLocaleDateString('pt-BR');
     document.getElementById("data").innerText = hoje;
 
-    // CONFETE AO ABRIR A PÁGINA
     setTimeout(() => {
         confetti({
             particleCount: 180,
@@ -193,12 +184,12 @@ const progress = document.getElementById("progress");
 const volume = document.getElementById("volume");
 const muteBtn = document.getElementById("muteBtn");
 
-// 1. GARANTE QUE O RANGE DE PROGRESSO SE AJUSTE À DURAÇÃO DA MÚSICA
+
 audio.addEventListener('loadedmetadata', () => {
     progress.max = audio.duration;
 });
 
-// 2. CONTROLE DE PLAY/PAUSE (COM TRATAMENTO DE ERRO DE AUTOPLAY)
+
 playBtn.addEventListener("click", () => {
     if (audio.paused) {
         audio.play().catch(error => {
@@ -212,7 +203,7 @@ playBtn.addEventListener("click", () => {
     }
 });
 
-// 3. CONTROLE DE PROGRESSO
+
 audio.addEventListener("timeupdate", () => {
     progress.value = audio.currentTime;
 });
@@ -221,7 +212,7 @@ progress.addEventListener("input", () => {
     audio.currentTime = progress.value;
 });
 
-// 4. CONTROLE DE VOLUME E MUTE
+
 volume.addEventListener("input", () => {
     audio.volume = volume.value;
     if (audio.volume == 0) {
@@ -241,7 +232,7 @@ muteBtn.addEventListener("click", () => {
     }
 });
 
-// 5. CONTROLES DE AVANÇO/RETROCESSO RÁPIDO
+
 document.getElementById("backBtn").addEventListener("click", () => {
     audio.currentTime -= 5;
 });
